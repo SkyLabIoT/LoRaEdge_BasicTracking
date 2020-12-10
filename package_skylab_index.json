@@ -14,8 +14,8 @@
           "category": "Contributed",
           "url": "https://github.com/SkyLabIoT/LoRaEdge_BasicTracking/raw/master/SkyLab_Boards.zip",
           "archiveFileName": "SkyLab_Boards.zip",
-          "checksum": "SHA-256:3d8ff7797ba14ebd0517d64380adf39d3c34cd6d66e73cbe7351c92067d61e44",
-          "size": "4742071",
+          "checksum": "SHA-256:62e0964c4c549b266b566a0fde7df8f5d3da078c932a8169f196344bc1129fe8",
+          "size": "4742066",
           "boards": [
             {
               "name": "SkyLab LoRa Edge"
