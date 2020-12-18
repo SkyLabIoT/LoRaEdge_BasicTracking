@@ -3,7 +3,6 @@
 import serial #to read serial
 import serial.tools.list_ports
 import struct
-import numpy #voor de wiskunde
 import os
 import sys
 import time

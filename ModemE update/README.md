@@ -6,6 +6,8 @@ UPDATELRCHIP105 contains modem-E version 1.0.5
 
 UPDATELRCHIP107 contains modem-E version 1.0.7
 
+The python script is depended on the pyserial libary. If pyserial is already installed and the script is not working, please uninstall and reinstall pyserial.
+
 ## How to update
 Updating the modem firmware goes as follows. The host PC must have Phyton installed.
 
