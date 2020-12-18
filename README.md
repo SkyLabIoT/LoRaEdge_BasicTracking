@@ -47,16 +47,24 @@ When set to 0 the current configured setting is used.
 
 Byte 6: Wi-Fi
 This byte turns the Wi-Fi payload on or off.
-0 = OFF
-1 = ON
-Others = keep current setting
+* 0 = OFF
+* 1 = ON
+* Others = keep current setting
 
 Byte 7:  GNSS
 This byte turns the GNSS payload on or off.
-0 = OFF
-1 = ON
-Others = keep current setting
+* 0 = OFF
+* 1 = ON
+* Others = keep current setting
 
+#### Downlink examples:
+LED on, interval on 5 minutes, no beacon, Wi-Fi and GNSS payload on: 01 00 05 00 00 00 01 01
+
+LED off, intervall 600 minutes, no beacon, Wi-Fi payload on, GNSS payload off: 00 15 36 00 00 00 01 00
+
+Keep current LED and interval setting, no beacon, Wi-Fi payload off, GNSS payload on: 02 00 00 00 00 00 00 01
+
+Turn beacon on for 5 minutes, keep all other current settings: 02 00 00 01 00 05 02 02
 
 ##	Uplink format
 The mode A example sketch can send 4 types of payload. These payloads types are identifiable by the port number used.
