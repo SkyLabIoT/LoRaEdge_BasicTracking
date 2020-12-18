@@ -5,7 +5,7 @@ For updating the LR1110 modem-E firmware.
 UPDATELRCHIP105 contains modem-E version 1.0.5
 UPDATELRCHIP107 contains modem-E version 1.0.7
 
-##How to update
+## How to update
 Updating the modem firmware goes as follows. The host PC must have Phyton installed.
 
 Upload the LRNodeUpdateTxToModem example sketch to the device.
