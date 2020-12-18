@@ -15,6 +15,7 @@ The first thing is to install the board via board manager.
 Go to File -> Preferences. Add the following link to Additional Boards Manager URLs: 
 https://github.com/SkyLabIoT/LoRaEdge_BasicTracking/raw/master/package_skylab_index.json.
 The board package can be downloaded via Tools -> Board -> Boards Manager... by searching for SkyLab.
+Select the board via Tools -> Board -> SkyLab Boards -> SkyLab LoRa Edge.
 The example sketch can be loaded via File -> Examples -> SkyLab LoRa Edge -> BasicLoRaA.
 
 ##	Joining network
@@ -23,12 +24,12 @@ After uploading the mode A example sketch the serial monitor can be opened on a 
 Downlinks should be send on port 2.
 The downlink format should be as follows:
 
-0 |	1 - 2
---|--
-LED |Interval
+0 |	1 - 2 | 3 | 4-5 | 6 | 7 |
+--|--|--|--|--|--
+LED | Interval | Beacon | Beacon time | Wi-Fi | GNSS
 
 Byte 0: LED
-This bytes configures the status LED.
+This byte configures the status LED.
 * 0 = OFF
 * 1 = ON (during Wi-Fi scan and GNSS scan)
 * Others = keep current setting
@@ -37,6 +38,26 @@ Byte 1 and 2: Interval
 These 2 bytes configure the standard interval time between messages
 Time is in minutes. Interval set to 0 will keep current setting and will not set an new interval time. Maximum time is 65535 minutes.
 
+Byte 3: Beacon
+This bytes turns the beacon on when this byte is set to 1. Other values will be ignored.
+
+Byte 4 and 5: Beacon time
+These bytes configure the time that de beacon is turned on. Time is in minutes. Maximum time is 65535 minutes.
+When set to 0 the current configured setting is used. 
+
+Byte 6: Wi-Fi
+This byte turns the Wi-Fi payload on or off.
+0 = OFF
+1 = ON
+Others = keep current setting
+
+Byte 7:  GNSS
+This byte turns the GNSS payload on or off.
+0 = OFF
+1 = ON
+Others = keep current setting
+
+
 ##	Uplink format
 The mode A example sketch can send 4 types of payload. These payloads types are identifiable by the port number used.
 
@@ -44,11 +65,11 @@ The mode A example sketch can send 4 types of payload. These payloads types are 
 The LR1110 sends an automated message when joining and every 24 hours after that. This message can be ignored.
 
 ### On port 2:
-This is the Wi-Fi and sensor payload. This payload has the information of 3 Wi-Fi points. The format is as follows:
+This is the Wi-Fi and sensor payload. This payload has the information of 3 Wi-Fi points and the sensor data. The format is as follows:
 
-0 |	1-6 |	7	| 8-13 |	14 |	15-20 |	21
---|--|--|--|--|--|--
-RSSI 1 |	MAC 1 |	RSSI 2 |	MAC 2 |	RSSI 3 |	MAC 3 |	Battery voltage
+0 |	1-6 |	7	| 8-13 |	14 |	15-20 |	21 | 22-23 | 24-25 | 26
+--|--|--|--|--|--|--|--|--|--
+RSSI 1 |	MAC 1 |	RSSI 2 |	MAC 2 |	RSSI 3 |	MAC 3 |	Battery voltage | Temperature | Pressure | Humidity
 
 Byte 0, 7 and 14:
 These bytes have the RSSI / signal strength of the scanned Wi-Fi points. These values must be interpreted as signed integers.
@@ -60,6 +81,16 @@ Byte 21: Battery voltage
 This byte has the raw battery voltage value. The exact voltage can be calculated with: 
 voltage = (float)((3.3 / 255) * ((4.7 + 10) / 10) * (Battery voltage));
 
+Byte 22 to 23: Temperature
+These bytes have the temperature value. The exact temperature in degree Celsius (◦C) can be calculated with: 
+Temperature = (float)(Temperature / 100);
+
+Byte 24 to 25: Pressure
+These bytes have the air pressure value. The exact pressure in degree hector Pascal (hPa) can be calculated with: 
+Air pressure = (float)(Pressure / 10);
+
+Byte 26: Humidity
+This byte has the humidity value in %.
 
 ### On port 3:
 This is the GNSS payload. This payload only has the raw GNSS data and is variable in size.
@@ -70,6 +101,9 @@ This payload is used as a “I am awake” message. By default it is set to ever
 Byte 0: Battery voltage
 This byte has the raw battery voltage value. The exact voltage can be calculated with: 
 voltage = (float)((3.3 / 255) * ((4.7 + 10) / 10) * (Battery voltage));
+
+### Radio beacon:
+When the beacon setting is set to 1 the beacon will be activated. The device will leave the network and sends a random LoRa payload every second on the 869800000 Hz frequency (outside the official LoRa frequency). The green LED will turn on if the LED activation is set to 1. The beacon will stop when the set time is reached. The system will rejoin the network and operate as before. 
 
 ## Hardware pins
 uC pin	| Board pin	|	Name in Arduino IDE
@@ -106,5 +140,11 @@ PB10	|	LED Green	|	LEDG
 PB11	|	LED Blue	|	LEDB
 PB22	|	TX	|	PIN_SERIAL_TX 
 PB23	|	RX	|	PIN_SERIAL_RX 
+
+## Changelog
+Version | Changes
+--|--
+1.0 | First release.
+1.2 | Support for more configuration via downlink, sensor integration in Wi-Fi payload and radio beacon.
 
 

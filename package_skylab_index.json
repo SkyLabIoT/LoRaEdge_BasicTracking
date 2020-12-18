@@ -10,12 +10,12 @@
         {
           "name": "SkyLab_Boards",
           "architecture": "samd",
-          "version": "1.1",
+          "version": "1.2",
           "category": "Contributed",
           "url": "https://github.com/SkyLabIoT/LoRaEdge_BasicTracking/raw/master/SkyLab_Boards.zip",
           "archiveFileName": "SkyLab_Boards.zip",
-          "checksum": "SHA-256:62e0964c4c549b266b566a0fde7df8f5d3da078c932a8169f196344bc1129fe8",
-          "size": "4742066",
+          "checksum": "SHA-256:f5f6f82d5d4a620d04bbb52a26afab78616697e371e96154053fa3f5461be289",
+          "size": "4745816",
           "boards": [
             {
               "name": "SkyLab LoRa Edge"
