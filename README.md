@@ -24,9 +24,9 @@ After uploading the mode A example sketch the serial monitor can be opened on a 
 Downlinks should be send on port 2.
 The downlink format should be as follows:
 
-0 |	1 - 2 | 3 | 4-5 | 6 | 7 |
---|--|--|--|--|--
-LED | Interval | Beacon | Beacon time | Wi-Fi | GNSS
+0 |	1-2 | 3 | 4 | 5 |
+--|--|--|--|--
+LED | Interval | Beacon | Wi-Fi | GNSS
 
 Byte 0: LED
 This byte configures the status LED.
@@ -39,19 +39,16 @@ These 2 bytes configure the standard interval time between messages
 Time is in minutes. Interval set to 0 will keep current setting and will not set an new interval time. Maximum time is 65535 minutes.
 
 Byte 3: Beacon
-This bytes turns the beacon on when this byte is set to 1. Other values will be ignored.
+This byte configures the time that de beacon is turned on. Time is in minutes. Maximum time is 255 minutes.
+When set to 0 the beacon will not be turned on. 
 
-Byte 4 and 5: Beacon time
-These bytes configure the time that de beacon is turned on. Time is in minutes. Maximum time is 65535 minutes.
-When set to 0 the current configured setting is used. 
-
-Byte 6: Wi-Fi
+Byte 4: Wi-Fi
 This byte turns the Wi-Fi payload on or off.
 * 0 = OFF
 * 1 = ON
 * Others = keep current setting
 
-Byte 7:  GNSS
+Byte 5:  GNSS
 This byte turns the GNSS payload on or off.
 * 0 = OFF
 * 1 = ON
