@@ -151,5 +151,6 @@ Version | Changes
 --|--
 1.0 | First release.
 1.2 | Support for more configuration via downlink, sensor integration in Wi-Fi payload and radio beacon.
+1.3 | Changes for BasicLoRaA sketch: Changed downlink to take fewer bytes. Fix a battery draining joining issue when there is no LoRa coverage. Added support for motion detection, enable by setting motionActivation to 1.
 
 
