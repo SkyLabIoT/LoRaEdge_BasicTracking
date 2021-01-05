@@ -177,6 +177,6 @@ Version | Changes
 1.3 | Changes for BasicLoRaA sketch: Changed downlink to take fewer bytes. Fix a battery draining joining issue when there is no LoRa coverage. Added support for motion detection, enable by setting motionActivation to 1.
 1.3.1 | Fixed joining issue after a failed join in BasicLoRaA sketch.
 1.4 | Updated port 2 uplink (byte 27). Updated downlink format, including examples. Added downlink confirm uplink. Ability to save settings to EEPROM so they will not reset on reboot.
-
+1.4.1 | File cleanup.
 
 
