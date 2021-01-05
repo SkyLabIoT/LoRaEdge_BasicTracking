@@ -1,7 +1,7 @@
 # Arduino Core for SAMD21 CPU
 
-This repository contains the modified source code and configuration files of the Arduino Core
-for SkyLab LoRa Edge boards.
+This repository contains the modified source code and configuration files of the Arduino Core.
+Used by SkyLab LoRa Edge boards.
 
 
 ## License and credits
