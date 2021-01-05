@@ -25,7 +25,7 @@ Downlinks should be send on port 2.
 The downlink format should be as follows:
 
 0 |	1-2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
---|--|--|--|--
+--|--|--|--|--|--|--|--|--
 LED | Interval | Beacon | Wi-Fi | GNSS | Motion activation / time | Motion interval duration | Motion sensor threshold register | Motion sensor duration register
 
 Byte 0: LED
@@ -90,7 +90,7 @@ The mode A example sketch can send 4 types of payload. These payloads types are 
 This is the Wi-Fi and sensor payload. This payload has the information of 3 Wi-Fi points and the sensor data. The format is as follows:
 
 0 |	1-6 |	7	| 8-13 |	14 |	15-20 |	21 | 22-23 | 24-25 | 26 | 27
---|--|--|--|--|--|--|--|--|--
+--|--|--|--|--|--|--|--|--|--|--
 RSSI 1 |	MAC 1 |	RSSI 2 |	MAC 2 |	RSSI 3 |	MAC 3 |	Battery voltage | Temperature | Pressure | Humidity | Motion activation
 
 Byte 0, 7 and 14:
