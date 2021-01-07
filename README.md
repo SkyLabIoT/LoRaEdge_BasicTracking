@@ -178,5 +178,6 @@ Version | Changes
 1.3.1 | Fixed joining issue after a failed join in BasicLoRaA sketch.
 1.4 | Updated port 2 uplink (byte 27). Updated downlink format, including examples. Added downlink confirm uplink. Ability to save settings to EEPROM so they will not reset on reboot.
 1.4.1 | File cleanup.
+1.5 |Purple LED turns on when attempting to join. Fix for missing Wi-Fi payload bug. Support for alc sync for future use. Made code more readable by adding comments.
 
 
