@@ -18,6 +18,13 @@ The board package can be downloaded via Tools -> Board -> Boards Manager... by s
 Select the board via Tools -> Board -> SkyLab Boards -> SkyLab LoRa Edge.
 The example sketch can be loaded via File -> Examples -> SkyLab LoRa Edge -> BasicLoRaA.
 
+The BasicLoRaA sketch dependencies are: \
+Arduino SAMD21 Low Power library: https://www.arduino.cc/en/Reference/ArduinoLowPower \
+Arduino RTC library: https:www.arduino.cc/en/Reference/RTC \
+Adafruit BME280 library: https://github.com/adafruit/Adafruit_BME280_Library \
+Adafruit LMS303 accelerometer: library https://github.com/adafruit/Adafruit_LSM303_Accel \
+FlashStorage library by cmaglie: https://github.com/cmaglie/FlashStorage
+
 ##	Joining network
 After uploading the mode A example sketch the serial monitor can be opened on a 9600 baud rate. The system starts with displaying the configured join_eui, dev_eui and app_key. The join_eui is requested from the LR1110 chip and is unique to that specific chip. This key should be used in the console of the used network. The dev_eui and app_key are configured in the code and should be changed for the correct keys, given by the used network console. If configured correctly the device automatically joins.
 ##	Configure via downlink
