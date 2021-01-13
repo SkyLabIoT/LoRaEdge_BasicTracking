@@ -10,8 +10,7 @@ uint8_t read_battery() {
   analogReadResolution(8);
   uint8_t batt = analogRead(batPin);  //read the analog battery value
   float voltage = (float)((3.3 / 255) * ((4.7 + 10) / 10) * batt);
-  Serial.print("Battery voltage: ");
-  Serial.println(voltage);
+  Serial.print("Battery voltage: "); Serial.print(voltage); Serial.println(" v");
   return batt;
 }
 
