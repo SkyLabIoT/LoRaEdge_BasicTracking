@@ -6,7 +6,7 @@
    Information on serial monitor.
    Radio beacon implemented.
    Motion detection interrupt implemented.
-   v1.5
+   v1.5.1
 */
 
 #include <skylabLR.h>
@@ -115,6 +115,7 @@ void setup() {
   lr1110_modem_response_code_t modem_response_code;
   modem_response_code = lr1110_modem_get_dev_eui(dev_eui); //request the dev eui from the LR1110 and print in on the serial monitor
   for (uint8_t i = 0; i < 8; i++) {
+    if(dev_eui[i] < 0x10) Serial.print("0");
     Serial.print(dev_eui[i], HEX);
     Serial.print(" ");
   }
@@ -122,6 +123,7 @@ void setup() {
   Serial.print("Join eui: ");
   modem_response_code = lr1110_modem_set_join_eui(join_eui); //set the join eui and print in on the serial monitor
   for (uint8_t i = 0; i < 8; i++) {
+    if(join_eui[i] < 0x10) Serial.print("0");
     Serial.print(join_eui[i], HEX);
     Serial.print(" ");
   }
@@ -129,6 +131,7 @@ void setup() {
   Serial.print("App key: ");
   modem_response_code = lr1110_modem_set_app_key(app_key); //set the app key and print in on the serial monitor
   for (uint8_t i = 0; i < 16; i++) {
+    if(app_key[i] < 0x10) Serial.print("0");
     Serial.print(app_key[i], HEX);
     Serial.print(" ");
   }
@@ -141,12 +144,12 @@ void setup() {
   delay(10);
   lr1110_modem_version_t modem;
   lr1110_modem_get_version( &modem ); //request the firmware information and print it on the serial monitor
-  Serial.print( "LORAWAN     : " );
-  Serial.println(modem.lorawan );
-  Serial.print( "FIRMWARE    : " );
-  Serial.println( modem.firmware );
-  Serial.print( "BOOTLOADER  : ");
-  Serial.println(modem.bootloader );
+  Serial.print( "LORAWAN     : 0x" );
+  Serial.println(modem.lorawan, HEX);
+  Serial.print( "FIRMWARE    : 0x" );
+  Serial.println( modem.firmware, HEX);
+  Serial.print( "BOOTLOADER  : 0x");
+  Serial.println(modem.bootloader, HEX);
   delay(10);
   /*Init EEPROM values*/
   read_config_flashEEPROM();
