@@ -20,7 +20,7 @@ The example sketch can be loaded via File -> Examples -> SkyLab LoRa Edge -> Bas
 
 The BasicLoRaA sketch dependencies are: \
 Arduino SAMD21 Low Power library: https://www.arduino.cc/en/Reference/ArduinoLowPower \
-Arduino RTC library: https:www.arduino.cc/en/Reference/RTC \
+Arduino RTC library: https://www.arduino.cc/en/Reference/RTC \
 Adafruit BME280 library: https://github.com/adafruit/Adafruit_BME280_Library \
 Adafruit LMS303 accelerometer: library https://github.com/adafruit/Adafruit_LSM303_Accel \
 FlashStorage library by cmaglie: https://github.com/cmaglie/FlashStorage
