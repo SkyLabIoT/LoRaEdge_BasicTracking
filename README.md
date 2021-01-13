@@ -26,7 +26,7 @@ Adafruit LMS303 accelerometer: library https://github.com/adafruit/Adafruit_LSM3
 FlashStorage library by cmaglie: https://github.com/cmaglie/FlashStorage
 
 ##	Joining network
-After uploading the mode A example sketch the serial monitor can be opened on a 9600 baud rate. The system starts with displaying the configured dev_eui, join_eui and app_key. The dev_eui is requested from the LR1110 chip and is unique to that specific chip. This key should be used in the console of the used network. The join_eui and app_key are configured in the code and should be changed for the correct keys, given by the used network console. If configured correctly the device automatically joins.
+After uploading the mode A example sketch the serial monitor can be opened on a 9600 baud rate. The system starts with displaying the configured dev_eui, join_eui and app_key (msb first). The dev_eui is requested from the LR1110 chip and is unique to that specific chip. This key should be used in the console of the used network. The join_eui and app_key are configured in the code and should be changed for the correct keys, given by the used network console. If configured correctly the device automatically joins.
 ##	Configure via downlink
 Downlinks should be send on port 2.
 The downlink format should be as follows:
