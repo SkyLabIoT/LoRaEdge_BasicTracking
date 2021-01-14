@@ -10,6 +10,49 @@
 	{
           "name": "SkyLab_Boards",
           "architecture": "samd",
+          "version": "1.5.2",
+          "category": "Contributed",
+          "url": "https://github.com/SkyLabIoT/LoRaEdge_BasicTracking/releases/download/v1.5.2/SkyLab_Boards1.5.2.zip",
+          "archiveFileName": "SkyLab_Boards1.5.2.zip",
+          "checksum": "SHA-256:9528d756567a430460c8d43c532a270fdfc25b4b73572907a94eed046729ba2d",
+          "size": "4759552",
+          "boards": [
+            {
+              "name": "SkyLab LoRa Edge"
+            }
+          ],
+          "toolsDependencies":
+          [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.8.0-48-gb176eee"
+            },
+            {
+              "packager": "arduino",
+              "name": "openocd",
+              "version": "0.10.0-arduino9"
+            },
+            {
+              "packager": "arduino",
+              "name": "CMSIS",
+              "version": "4.5.0"
+            },
+            {
+              "packager": "arduino",
+              "name": "CMSIS-Atmel",
+              "version": "1.2.0"
+            }
+          ]
+        },
+	{
+          "name": "SkyLab_Boards",
+          "architecture": "samd",
           "version": "1.5.1",
           "category": "Contributed",
           "url": "https://github.com/SkyLabIoT/LoRaEdge_BasicTracking/releases/download/v1.5.1/SkyLab_Boards1.5.1.zip",

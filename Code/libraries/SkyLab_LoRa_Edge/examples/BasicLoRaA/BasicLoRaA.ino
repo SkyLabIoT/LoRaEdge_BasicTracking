@@ -60,7 +60,7 @@ Adafruit_BME280 bme;  //init BME280 lib
 Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(54321); //init LSM303 accelerometer lib
 bool beaconActivation = 0; //variable to
 uint16_t beaconTime = 10;
-uint32_t counter = 0;
+uint32_t counter = intervalTime;
 uint32_t counter2 = 0;
 uint32_t counter3 = 0;
 uint16_t intervalCurrent = intervalTime;
@@ -1031,6 +1031,7 @@ void motion_detect() {
   if (beaconActivation != 1 && joiningFailed != 1) {  //only do things when beacon is not activated and joining is not failed
     if (motionActivated == 0) { //when motion is not yet activated
       motionActivated = 1;  //activate motion
+      counter = motionIntervalTime;
       rtc.setSeconds(5);  //set RTC time to 5 seconds to go to one minute interrupt after 1 second
     }
     intervalCurrent = motionIntervalTime; //change interval to motion interval

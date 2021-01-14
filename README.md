@@ -187,5 +187,5 @@ Version | Changes
 1.4.1 | File cleanup.
 1.5 |Purple LED turns on when attempting to join. Fix for missing Wi-Fi payload bug. Support for alc sync for future use. Made code more readable by adding comments.
 1.5.1 | Padded EUI / keys with zeros on serial monitor for easier copying. LoRaWAN, firmware and bootloader versions now print in HEX on serial monitor.
-
+1.5.2 | Fixed not sending first payload after startup and after first motion detection.
 
