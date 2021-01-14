@@ -90,7 +90,7 @@ Turn beacon on for 5 minutes, motion detection off, keep all other current setti
 Keep current LED and interval setting, no beacon, Wi-Fi payload on, GNSS payload off, motion detection on with 1 minute sending interval, motion interval used for 4 minutes after last motion, motion threshold register set to 7, motion duration register set to 3: 02 00 00 00 01 00 01 04 07 03
 
 ##	Uplink format
-The mode A example sketch can send 4 types of payload. These payloads types are identifiable by the port number used.
+The mode A example sketch can send 4 types of payload. These payloads types are identifiable by the port number used. An example TTN decoder script can be found on this GitHub page (exampleDecoderTTN.js).
 
 
 ### On port 2:
