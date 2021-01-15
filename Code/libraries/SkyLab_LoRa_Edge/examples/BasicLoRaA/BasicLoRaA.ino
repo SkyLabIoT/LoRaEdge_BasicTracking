@@ -516,7 +516,7 @@ uint8_t send_payload(uint8_t payloadKind) {
     return 3;       //return 3 for unexpected payload type
   }
 }
-void LR1110_event_flush() { //function flushes the open events in the LR1110 and reads the downlink if the event is of the donwlink type
+void LR1110_event_flush() { //function flushes the open events in the LR1110 and reads the downlink if the event is of the downlink type
   lr1110_modem_response_code_t modem_response_code;
   while ( digitalRead (eventPin) == 1 ) //only do something when eventpin is high and keep doing until pin goes low
   {
