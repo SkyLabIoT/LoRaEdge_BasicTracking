@@ -66,7 +66,7 @@ uint32_t counter3 = 0;
 uint16_t intervalCurrent = intervalTime;
 uint16_t motionCountDown = 0;
 bool motionActivated = 0;
-bool joiningFailed = 0;
+bool joiningFailed = 1;
 uint8_t joiningFailedCount = 0;
 #define WIFI_MAX_BASIC_RESULTS_PER_SCAN 3 //Max adresses to scan for when wifi sniffing
 #define WIFI_PAYLOAD_FORMAT 2 //define payload type for Wi-Fi send function
@@ -252,7 +252,7 @@ void main_function() {  //function to send the data
     Serial.print("Leaving network response: ");
     Serial.println(modem_response_code);
     LR1110_rejoin();  //rejoin network
-    counter2 = (controlTime); //retry next minute
+    counter = (intervalCurrent); //retry next minute
   }
   else {
     if (WiFiActivation == 1) {  //if Wi-Fi payload is activated
@@ -307,15 +307,13 @@ void one_minute () {
   }
   else {  //if system is joined
     if (motionActivated == 1) { //if device is in motion
-      if (motionCountDown <= 0) { //if motion counter is back to 0
-        Serial.println("Back to default interval");
-        intervalCurrent = intervalTime; //go back to default interval time
-        motionActivated = 0;  //reset device to no motion
-      }
       if (motionCountDown > 0) {  //if motion counter is higer than 0
         motionCountDown--;  //count down motion counter
         Serial.print("Motion interval: "); 
         Serial.println(motionCountDown);
+      }
+      if (motionCountDown <= 0) { //if motion counter is back to 0
+        counter = intervalCurrent; //set counter to current interval for last motion payload sending
       }
     }
     else {}
@@ -351,6 +349,13 @@ void one_minute () {
         counter2++; //count up the counter
       }
     }
+   if (motionActivated == 1) { //if device is in motion
+      if (motionCountDown <= 0) { //if motion counter is back to 0
+        Serial.println("Back to default interval");
+        intervalCurrent = intervalTime; //go back to default interval time
+        motionActivated = 0;  //reset device to no motion
+      }
+   }
   }
 }
 uint8_t send_payload(uint8_t payloadKind) {
@@ -531,89 +536,126 @@ void LR1110_event_flush() { //function flushes the open events in the LR1110 and
       }
       Serial.print("RX data: ");
       for (int8_t i = 0; i < buffer_size; i++) {
+        if (event_fields.buffer[i] < 0x10) Serial.print("0");
         Serial.print (event_fields.buffer[i], HEX);
         Serial.print (" ");
       }
       Serial.println ();
-      if (event_fields.buffer[0] == 0) {  //byte 0 contains ledActivation, set ledActivation variable accordingly, or do noting when value is not 0 or 1
-        ledActivation = 0;
-      }
-      if (event_fields.buffer[0] == 1) {
-        ledActivation = 1;
-      }
-      else {}
-      uint16_t intervalTimeRec = (event_fields.buffer[1] << 8 | event_fields.buffer[2]);  //read byte 1 and 2 for interval time
-      if (intervalTimeRec > 0) {   //only configure new interval time when received time is higher than 0 minutes
-        intervalTime = intervalTimeRec;
-        intervalCurrent = intervalTime;
-      }
-      uint16_t beaconTimeRec = (event_fields.buffer[3]);  //read byte 4 and 5 for beacon time
-      if (beaconTimeRec > 0) {   //only configure new interval time when received time is higher than 0 minutes
-        beaconTime = beaconTimeRec;
-        beaconActivation = 1;
-      }
-      if (event_fields.buffer[4] == 0) {  //byte 0 contains WiFiActivation, set WiFiACtivation variable accordingly, or do noting when value is not 0 or 1
-        WiFiActivation = 0;
-      }
-      if (event_fields.buffer[4] == 1) {
-        WiFiActivation = 1;
-      }
-      if (event_fields.buffer[5] == 0) {  //byte 0 contains GNSSActivation, set GNSSActivation variable accordingly, or do noting when value is not 0 or 1
-        GNSSActivation = 0;
-      }
-      if (event_fields.buffer[5] == 1) {
-        GNSSActivation = 1;
-      }
-      if (event_fields.buffer[6] == 0) {  //if byte 6 is 0 disable motion detection
-        motionActivation = 0;
-        motionCountDown = 0;
-        detachInterrupt(INT1);
-      }
-      if (event_fields.buffer[6] != 0) {  //if byte is not 0 enable motion detection with the value as interval time
-        motionActivation = 1;
-        motionIntervalTime = event_fields.buffer[6];
-        intervalCurrent = motionIntervalTime;
-        pinMode (INT1 , INPUT);
-        LowPower.attachInterruptWakeup(INT1, motion_detect, RISING);
-      }
-      if (event_fields.buffer[7] != 0) {  //if byte 7 is not 0, use byte 7 as time in motion interval, use byte 8 and 9 as values for the LSM303 registers, if byte 7 is 0 ignore the last bytes
-        timeInMotionInterval = event_fields.buffer[7];
-        acc_threshold = event_fields.buffer[8];
-        acc_duration = event_fields.buffer[9];
-        motion_detect_set_threshold();
-      }
+      Serial.print("On port: ");
+      Serial.println (port);
+      if (port == 2) {
+        if (event_fields.buffer[0] == 0) {  //byte 0 contains ledActivation, set ledActivation variable accordingly, or do noting when value is not 0 or 1
+          ledActivation = 0;
+        }
+        if (event_fields.buffer[0] == 1) {
+          ledActivation = 1;
+        }
+        else {}
+        uint16_t intervalTimeRec = (event_fields.buffer[1] << 8 | event_fields.buffer[2]);  //read byte 1 and 2 for interval time
+        if (intervalTimeRec > 0) {   //only configure new interval time when received time is higher than 0 minutes
+          intervalTime = intervalTimeRec;
+          intervalCurrent = intervalTime;
+        }
+        uint16_t beaconTimeRec = (event_fields.buffer[3]);  //read byte 4 and 5 for beacon time
+        if (beaconTimeRec > 0) {   //only configure new interval time when received time is higher than 0 minutes
+          beaconTime = beaconTimeRec;
+          beaconActivation = 1;
+        }
+        if (event_fields.buffer[4] == 0) {  //byte 0 contains WiFiActivation, set WiFiACtivation variable accordingly, or do noting when value is not 0 or 1
+          WiFiActivation = 0;
+        }
+        if (event_fields.buffer[4] == 1) {
+          WiFiActivation = 1;
+        }
+        if (event_fields.buffer[5] == 0) {  //byte 0 contains GNSSActivation, set GNSSActivation variable accordingly, or do noting when value is not 0 or 1
+          GNSSActivation = 0;
+        }
+        if (event_fields.buffer[5] == 1) {
+          GNSSActivation = 1;
+        }
+        if (event_fields.buffer[6] == 0) {  //if byte 6 is 0 disable motion detection
+          motionActivation = 0;
+          motionCountDown = 0;
+          detachInterrupt(INT1);
+        }
+        if (event_fields.buffer[6] != 0) {  //if byte is not 0 enable motion detection with the value as interval time
+          motionActivation = 1;
+          motionIntervalTime = event_fields.buffer[6];
+          intervalCurrent = motionIntervalTime;
+          pinMode (INT1 , INPUT);
+          LowPower.attachInterruptWakeup(INT1, motion_detect, RISING);
+        }
+        if (event_fields.buffer[7] != 0) {  //if byte 7 is not 0, use byte 7 as time in motion interval, use byte 8 and 9 as values for the LSM303 registers, if byte 7 is 0 ignore the last bytes
+          timeInMotionInterval = event_fields.buffer[7];
+          acc_threshold = event_fields.buffer[8];
+          acc_duration = event_fields.buffer[9];
+          motion_detect_set_threshold();
+        }
 
-      Serial.print("LED activation: ");
-      Serial.println(ledActivation);
-      Serial.print("Interval: ");
-      Serial.println(intervalTime);
-      Serial.print("Beacon: ");
-      Serial.println(beaconActivation);
-      Serial.print("Beacon time: ");
-      Serial.println(beaconTime);
-      Serial.print("WiFi activation: ");
-      Serial.println(WiFiActivation);
-      Serial.print("GNSS activation: ");
-      Serial.println(GNSSActivation);
-      Serial.print("Motion activation: ");
-      Serial.println(motionActivation);
-      Serial.print("Motion interval:  ");
-      Serial.println(motionIntervalTime);
-      Serial.print("Motion interval duration: ");
-      Serial.println(timeInMotionInterval);
-      Serial.print("Motion threshold: ");
-      Serial.println(acc_threshold);
-      Serial.print("Motion duration: ");
-      Serial.println(acc_duration);
-      send_payload(CONFIG_PAYLOAD_FORMAT);
-      write_config_flashEEPROM();
+        Serial.print("LED activation: ");
+        Serial.println(ledActivation);
+        Serial.print("Interval: ");
+        Serial.println(intervalTime);
+        Serial.print("Beacon: ");
+        Serial.println(beaconActivation);
+        Serial.print("Beacon time: ");
+        Serial.println(beaconTime);
+        Serial.print("WiFi activation: ");
+        Serial.println(WiFiActivation);
+        Serial.print("GNSS activation: ");
+        Serial.println(GNSSActivation);
+        Serial.print("Motion activation: ");
+        Serial.println(motionActivation);
+        Serial.print("Motion interval:  ");
+        Serial.println(motionIntervalTime);
+        Serial.print("Motion interval duration: ");
+        Serial.println(timeInMotionInterval);
+        Serial.print("Motion threshold: ");
+        Serial.println(acc_threshold);
+        Serial.print("Motion duration: ");
+        Serial.println(acc_duration);
+        send_payload(CONFIG_PAYLOAD_FORMAT);
+        write_config_flashEEPROM();
+      }
+      if (port == 1) {
+        if (event_fields.buffer[0] == 1) {
+          if (ledActivation == 1) {
+            digitalWrite(LEDB, LOW);
+          } //turn led on when led activation is set to 1
+          LR1110_WiFi_scan();   //scan for WiFi adresses
+          send_payload(WIFI_PAYLOAD_FORMAT);  //send the WiFi payload to the lora network
+          digitalWrite(LEDB, HIGH); //turn the led off
+          wait_on_event_pin(20);//wait 20 sec for first event to confirm payload is send
+          if (ledActivation == 1) {
+            digitalWrite(LEDR, LOW);
+          } //turn led on when led activation is set to 1
+          digitalWrite(LNA, HIGH);  //Turn on the Low Noise Amp for the GNSS antenna
+          LR1110_GNSS_scan(); //scan for GNSS data
+          digitalWrite(LNA, LOW); //Turn off the Low Noise Amp for the GNSS antenna
+          send_payload(GNSS_PAYLOAD_FORMAT);  //send the GNSS payload to the lora network
+          digitalWrite(LEDR, HIGH); //turn the led off
+          wait_on_event_pin(20);  //wait 20 sec for first event to confirm payload is send
+        }
+        if (event_fields.buffer[0] == 2) {
+          send_payload(CONFIG_PAYLOAD_FORMAT);
+          wait_on_event_pin(20);  //wait 20 sec for first event to confirm payload is send
+        }
+        if (event_fields.buffer[0] == 3) {
+          static uint8_t tx_frame_buffer_control[LORAWAN_APP_DATA_MAX_SIZE];
+          uint8_t batteryValue = read_battery();  //read battery voltage
+          tx_frame_buffer_control[0] = batteryValue;  //set battery voltage in send buffer
+          lr1110_modem_request_tx(10, is_tx_confirmed, tx_frame_buffer_control, 1);  //request modem to send payload on port 10, length of 1 byte
+          wait_on_event_pin(20);//wait 20 sec for first event to confirm payload is send
+          Serial.println("Control message send");
+        }
+      }
     }
     if (event_fields.event_type == LR1110_MODEM_LORAWAN_EVENT_JOIN_FAIL) {
       Serial.println("Join fail event");
       joiningFailed = 1;  //when join fail event occurs, set this value to 1
       digitalWrite(LEDB, HIGH);
       digitalWrite(LEDR, HIGH);
-      one_minute(); //immediately go to one minute function 
+      one_minute(); //immediately go to one minute function
     }
     if (event_fields.event_type == LR1110_MODEM_LORAWAN_EVENT_TIME_UPDATED_ALC_SYNC) {
       Serial.print("Time synced: ");
