@@ -28,8 +28,15 @@ FlashStorage library by cmaglie: https://github.com/cmaglie/FlashStorage
 ##	Joining network
 After uploading the mode A example sketch the serial monitor can be opened on a 9600 baud rate. The system starts with displaying the configured dev_eui, join_eui and app_key (msb first). The dev_eui is requested from the LR1110 chip and is unique to that specific chip. This key should be used in the console of the used network. The join_eui and app_key are configured in the code and should be changed for the correct keys, given by the used network console. If configured correctly the device automatically joins.
 ##	Configure via downlink
-Downlinks should be send on port 2.
-The downlink format should be as follows:
+### On port 1 (only with BasicLoRaA version > 1.5.3):
+
+Send a 0x01 to request a Wi-Fi and GNSS scan payload (answer is on port 2 and 3).
+Send a 0x02 to request the current configuration (answer is on port 44).
+Send a 0x03 to request the current battery voltage (answer is on port 10).
+
+### On port 2:
+
+The configuration downlink format should be as follows:
 
 0 |	1-2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 --|--|--|--|--|--|--|--|--
@@ -92,11 +99,6 @@ Keep current LED and interval setting, no beacon, Wi-Fi payload on, GNSS payload
 ##	Uplink format
 The mode A example sketch can send 4 types of payload. These payloads types are identifiable by the port number used. An example TTN decoder script can be found on this GitHub page (exampleDecoderTTN.js).
 
-### On port 1 (only with BasicLoRaA version > 1.5.3):
-
-Send a 0x01 to request a Wi-Fi and GNSS scan payload (answer is on port 2 and 3).
-Send a 0x02 to request the current configuration (answer is on port 44).
-Send a 0x03 to request the current battery voltage (answer is on port 10).
 
 ### On port 2:
 This is the Wi-Fi and sensor payload. This payload has the information of 3 Wi-Fi points and the sensor data. The format is as follows:
