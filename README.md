@@ -11,11 +11,11 @@ WARNING: If the charge controller for a li-ion battery is needed, the battery ju
 ##	Configure Arduino IDE
 
 The Arduino IDE can be used for uploading software via the micro USB port. Before it can be used the IDE must be configured. 
-The first thing is to install the board via board manager.
+The first thing is to install the board via board manager. \
 Go to File -> Preferences. Add the following link to Additional Boards Manager URLs: 
-https://github.com/SkyLabIoT/LoRaEdge_BasicTracking/raw/master/package_skylab_index.json.
-The board package can be downloaded via Tools -> Board -> Boards Manager... by searching for SkyLab.
-Select the board via Tools -> Board -> SkyLab Boards -> SkyLab LoRa Edge.
+https://github.com/SkyLabIoT/LoRaEdge_BasicTracking/raw/master/package_skylab_index.json. \
+The board package can be downloaded via Tools -> Board -> Boards Manager... by searching for SkyLab. \
+Select the board via Tools -> Board -> SkyLab Boards -> SkyLab LoRa Edge. \
 The example sketch can be loaded via File -> Examples -> SkyLab LoRa Edge -> BasicLoRaA.
 
 The BasicLoRaA sketch dependencies are: \
@@ -86,15 +86,20 @@ The system confirms the downlink by sending the set configuration in an uplink o
 
 
 #### Downlink examples:
-LED on, interval on 5 minutes, no beacon, Wi-Fi and GNSS payload on, motion detection off: 01 00 05 00 01 01 00 00 00 00
+LED on, interval on 5 minutes, no beacon, Wi-Fi and GNSS payload on, motion detection off: \
+01 00 05 00 01 01 00 00 00 00
 
-LED off, interval 600 minutes, no beacon, Wi-Fi payload on, GNSS payload off, motion detection off: 00 15 36 00 01 00 00 00 00 00
+LED off, interval 600 minutes, no beacon, Wi-Fi payload on, GNSS payload off, motion detection off: \
+00 15 36 00 01 00 00 00 00 00
 
-Keep current LED and interval setting, no beacon, Wi-Fi payload off, GNSS payload on, motion detection off: 02 00 00 00 00 01 00 00 00 00
+Keep current LED and interval setting, no beacon, Wi-Fi payload off, GNSS payload on, motion detection off: \
+02 00 00 00 00 01 00 00 00 00
 
-Turn beacon on for 5 minutes, motion detection off, keep all other current settings: 02 00 00 05 02 02 00 00 00 00
+Turn beacon on for 5 minutes, motion detection off, keep all other current settings: \
+02 00 00 05 02 02 00 00 00 00
 
-Keep current LED and interval setting, no beacon, Wi-Fi payload on, GNSS payload off, motion detection on with 1 minute sending interval, motion interval used for 4 minutes after last motion, motion threshold register set to 7, motion duration register set to 3: 02 00 00 00 01 00 01 04 07 03
+Keep current LED and interval setting, no beacon, Wi-Fi payload on, GNSS payload off, motion detection on with 1 minute sending interval, motion interval used for 4 minutes after last motion, motion threshold register set to 7, motion duration register set to 3: \
+02 00 00 00 01 00 01 04 07 03
 
 ##	Uplink format
 The mode A example sketch can send 4 types of payload. These payloads types are identifiable by the port number used. An example TTN decoder script can be found on this GitHub page (exampleDecoderTTN.js).
@@ -107,28 +112,28 @@ This is the Wi-Fi and sensor payload. This payload has the information of 3 Wi-F
 --|--|--|--|--|--|--|--|--|--|--
 RSSI 1 |	MAC 1 |	RSSI 2 |	MAC 2 |	RSSI 3 |	MAC 3 |	Battery voltage | Temperature | Pressure | Humidity | Motion activation
 
-Byte 0, 7 and 14:
+Byte 0, 7 and 14: Wi-Fi RSSI \
 These bytes have the RSSI / signal strength of the scanned Wi-Fi points. These values must be interpreted as signed integers.
 
-Byte 1 to 6, 8 to 13 and 15 to 20:
+Byte 1 to 6, 8 to 13 and 15 to 20: Wi-Fi MAC \
 These bytes have the MAC addresses of the scanned Wi-Fi points.
 
-Byte 21: Battery voltage
+Byte 21: Battery voltage \
 This byte has the raw battery voltage value. The exact voltage can be calculated with: 
 voltage = (float)((3.3 / 255) * ((4.7 + 10) / 10) * (Battery voltage));
 
-Byte 22 to 23: Temperature
+Byte 22 to 23: Temperature \
 These bytes have the temperature value. The exact temperature in degree Celsius (◦C) can be calculated with: 
 Temperature = (float)(Temperature / 100);
 
-Byte 24 to 25: Pressure
+Byte 24 to 25: Pressure \
 These bytes have the air pressure value. The exact pressure in degree hector Pascal (hPa) can be calculated with: 
 Air pressure = (float)(Pressure / 10);
 
-Byte 26: Humidity
+Byte 26: Humidity \
 This byte has the humidity value in %.
 
-Byte 27: Motion activation
+Byte 27: Motion activation \
 This byte shows 0 when in normal interval. When in motion interval this byte gives the amount of minutes left in the motion interval.
 
 ### On port 3:
@@ -137,7 +142,7 @@ This is the GNSS payload. This payload only has the raw GNSS data and is variabl
 ### On port 10:
 This payload is used as a “I am awake” message. By default it is set to every 24 hours. This can be changed by changing the value “controlTime”. The format is as follows: 
 
-Byte 0: Battery voltage
+Byte 0: Battery voltage \
 This byte has the raw battery voltage value. The exact voltage can be calculated with: 
 voltage = (float)((3.3 / 255) * ((4.7 + 10) / 10) * (Battery voltage));
 
