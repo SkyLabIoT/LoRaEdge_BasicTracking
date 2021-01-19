@@ -30,8 +30,8 @@ After uploading the mode A example sketch the serial monitor can be opened on a 
 ##	Configure via downlink
 ### On port 1 (only with BasicLoRaA version > 1.5.3):
 
-Send a 0x01 to request a Wi-Fi and GNSS scan payload (answer is on port 2 and 3).
-Send a 0x02 to request the current configuration (answer is on port 44).
+Send a 0x01 to request a Wi-Fi and GNSS scan payload (answer is on port 2 and 3). \
+Send a 0x02 to request the current configuration (answer is on port 44). \
 Send a 0x03 to request the current battery voltage (answer is on port 10).
 
 ### On port 2:
