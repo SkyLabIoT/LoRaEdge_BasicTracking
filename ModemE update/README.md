@@ -1,6 +1,6 @@
 # Known issue
 
-There seems to be a joining problem in fimrware version v1.0.7 (see: https://github.com/Lora-net/radio_firmware_images/tree/master/lr1110/modem)
+There seems to be a joining problem with firmware version v1.0.7 (see: https://github.com/Lora-net/radio_firmware_images/tree/master/lr1110/modem)
 If you encounter issues, please try to downgrade to version 1.0.5 with the same procedure as described on this page.
 
 
