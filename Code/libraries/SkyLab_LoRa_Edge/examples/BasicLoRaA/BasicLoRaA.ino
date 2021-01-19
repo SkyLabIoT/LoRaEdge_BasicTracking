@@ -6,7 +6,7 @@
    Information on serial monitor.
    Radio beacon implemented.
    Motion detection interrupt implemented.
-   v1.5.1
+   v1.5.3
 */
 
 #include <skylabLR.h>

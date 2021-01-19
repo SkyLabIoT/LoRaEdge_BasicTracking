@@ -92,6 +92,11 @@ Keep current LED and interval setting, no beacon, Wi-Fi payload on, GNSS payload
 ##	Uplink format
 The mode A example sketch can send 4 types of payload. These payloads types are identifiable by the port number used. An example TTN decoder script can be found on this GitHub page (exampleDecoderTTN.js).
 
+### On port 1 (only with BasicLoRaA version > 1.5.3):
+
+Send a 0x01 to request a Wi-Fi and GNSS scan payload (answer is on port 2 and 3).
+Send a 0x02 to request the current configuration (answer is on port 44).
+Send a 0x03 to request the current battery voltage (answer is on port 10).
 
 ### On port 2:
 This is the Wi-Fi and sensor payload. This payload has the information of 3 Wi-Fi points and the sensor data. The format is as follows:
@@ -188,4 +193,6 @@ Version | Changes
 1.5 |Purple LED turns on when attempting to join. Fix for missing Wi-Fi payload bug. Support for alc sync for future use. Made code more readable by adding comments.
 1.5.1 | Padded EUI / keys with zeros on serial monitor for easier copying. LoRaWAN, firmware and bootloader versions now print in HEX on serial monitor.
 1.5.2 | Fixed not sending first payload after startup and after first motion detection.
+1.5.3 | Added downlink function for requesting settings. Fixed bug in motion interval timer.
+
 
