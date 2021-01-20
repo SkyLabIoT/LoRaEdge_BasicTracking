@@ -6,7 +6,7 @@
    Information on serial monitor.
    Radio beacon implemented.
    Motion detection interrupt implemented.
-   v1.5.3
+   v1.5.4
 */
 
 #include <skylabLR.h>
@@ -34,7 +34,7 @@ bool alcSyncEnable = 0; //enable alc sync service on port 202 to sync time. not 
 
 /*Interval options*/
 uint16_t intervalTime = 15; //default interval, in minutes
-uint16_t controlTime = 1415; // default control interval, in minutes, control message in a bit less than every 24h
+uint16_t controlTime = 1415; //default control interval, in minutes, control message in a bit less than every 24h
 uint16_t motionIntervalTime = 1; //interval when motion detected and motionActivation is on.
 uint16_t timeInMotionInterval = 5; //time to use motion interval since last motion detection, after this amount of minutes the system goes back to the normal intervalTime
 
@@ -153,6 +153,8 @@ void setup() {
   delay(10);
   /*Init EEPROM values*/
   read_config_flashEEPROM();
+  intervalCurrent = intervalTime; //set current interval to interval from EEPROM
+  counter = intervalTime; //set counter to intervalTime to send first message within minute after startup
   /*Join network*/
   LR1110_join();
   if (ledActivation == 1) {
@@ -194,7 +196,7 @@ void beacon_function() {  //function that activates beacon
   Serial.println(modem_response_code); //print command response from last packet
   counter3++; //add 1 to counter 3
   Serial.print("Beacon timer: ");
-  Serial.print(counter3); // print counter 3
+  Serial.print(counter3); //print counter 3
   Serial.println(" secondes");
   rtc.setSeconds(5);  //set time to 5 second so that interrupt occurs again next second
   digitalWrite(LEDG, HIGH); //turn the led off
@@ -675,7 +677,7 @@ void LR1110_event_flush() { //function flushes the open events in the LR1110 and
 void LR1110_WiFi_scan() { //function to do a Wi-Fi scan
   lr1110_modem_response_code_t modem_response_code;
   wifi.settings.enabled       = true;
-  wifi.settings.channels      = 0x3FFF;  // by default enable all channels
+  wifi.settings.channels      = 0x3FFF;  //by default enable all channels
   wifi.settings.types         = LR1110_MODEM_WIFI_TYPE_SCAN_B_G_N;
   wifi.settings.scan_mode     = LR1110_MODEM_WIFI_SCAN_MODE_BEACON_AND_PACKET;
   wifi.settings.nbr_retrials  = 5;
@@ -998,9 +1000,9 @@ void BME280_init() { //start BME280 sensor
   Wire.begin(); //start i2c
   status = bme.begin(0x77); //adress BME280 onboard
   bme.setSampling(Adafruit_BME280::MODE_FORCED, //forced mode
-                  Adafruit_BME280::SAMPLING_X1, // temperature sampling
-                  Adafruit_BME280::SAMPLING_X1, // pressure sampling
-                  Adafruit_BME280::SAMPLING_X1, // humidity sampling
+                  Adafruit_BME280::SAMPLING_X1, //temperature sampling
+                  Adafruit_BME280::SAMPLING_X1, //pressure sampling
+                  Adafruit_BME280::SAMPLING_X1, //humidity sampling
                   Adafruit_BME280::FILTER_OFF   );  //no filter
   Wire.end(); //stop i2c
 }

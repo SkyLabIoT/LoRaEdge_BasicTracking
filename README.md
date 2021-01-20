@@ -201,5 +201,6 @@ Version | Changes
 1.5.1 | Padded EUI / keys with zeros on serial monitor for easier copying. LoRaWAN, firmware and bootloader versions now print in HEX on serial monitor.
 1.5.2 | Fixed not sending first payload after startup and after first motion detection.
 1.5.3 | Added downlink function for requesting settings. Fixed bug in motion interval timer.
+1.5.4 | Fixed interval value not always loading correctly after reboot.
 
 
